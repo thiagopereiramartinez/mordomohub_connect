@@ -8,12 +8,12 @@ type FulfillmentRequest struct {
 }
 
 type FulfillmentIntent struct {
-	Intent  string      `json:"intent"`
-	Payload interface{} `json:"payload"`
+	Intent  string                 `json:"intent"`
+	Payload map[string]interface{} `json:"payload"`
 }
 
 const (
-	SYNC = "action.devices.SYNC"
+	SYNC    = "action.devices.SYNC"
 	EXECUTE = "action.devices.EXECUTE"
 )
 
@@ -27,7 +27,9 @@ func Fulfillment(c *fiber.Ctx) {
 	for _, input := range request.Inputs {
 		switch input.Intent {
 		case SYNC:
-			Sync(c, input.Payload)
+			Sync(c, request.RequestId, input.Payload)
+		case EXECUTE:
+			Execute(c, request.RequestId, input.Payload)
 		}
 	}
 
