@@ -13,8 +13,6 @@ import (
 
 func main() {
 
-	fmt.Println(uuid.New().String())
-
 	// Criar aplicação
 	app := fiber.New()
 
