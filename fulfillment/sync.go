@@ -38,12 +38,31 @@ func Sync(c *fiber.Ctx, requestId string, payload map[string]interface{}) {
 	// Canal 4
 	device_4 := device_1.Copy("4", "Canal 4")
 
+	// Sensor
+	device_5 := structs.Device{
+		Id:     "5",
+		Type:   structs.TYPE_THERMOSTAT,
+		Traits: []string{structs.TRAITS_TEMPERATURE_SETTING},
+		Name: structs.DeviceName{
+			DefaultNames: []string{"DHT22"},
+			Name:         "DHT22",
+		},
+		WillReportState: false,
+		RoomHint:        "Quarto",
+		DeviceInfo:      manufacturer,
+		Attributes: map[string]interface{}{
+			"thermostatTemperatureUnit":   "C",
+			"queryOnlyTemperatureSetting": "true",
+		},
+	}
+
 	// Array com os dispositivos
 	devices := []structs.Device{
 		device_1,
 		device_2,
 		device_3,
 		device_4,
+		device_5,
 	}
 
 	c.JSON(fiber.Map{

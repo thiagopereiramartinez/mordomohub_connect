@@ -14,6 +14,7 @@ type FulfillmentIntent struct {
 
 const (
 	SYNC    = "action.devices.SYNC"
+	QUERY   = "action.devices.QUERY"
 	EXECUTE = "action.devices.EXECUTE"
 )
 
@@ -30,6 +31,8 @@ func Fulfillment(c *fiber.Ctx) {
 			Sync(c, request.RequestId, input.Payload)
 		case EXECUTE:
 			Execute(c, request.RequestId, input.Payload)
+		case QUERY:
+			Query(c, request.RequestId, input.Payload)
 		}
 	}
 

@@ -1,22 +1,25 @@
 package structs
 
 const (
-	TYPE_OUTLET string = "action.devices.types.OUTLET"
+	TYPE_OUTLET     string = "action.devices.types.OUTLET"
+	TYPE_THERMOSTAT string = "action.devices.types.THERMOSTAT"
 )
 
 const (
-	TRAITS_ON_OFF string = "action.devices.traits.OnOff"
+	TRAITS_ON_OFF              string = "action.devices.traits.OnOff"
+	TRAITS_TEMPERATURE_SETTING string = "action.devices.traits.TemperatureSetting"
 )
 
 // SYNC
 type Device struct {
-	Id              string     `json:"id"`
-	Type            string     `json:"type"`
-	Traits          []string   `json:"traits"`
-	Name            DeviceName `json:"name"`
-	WillReportState bool       `json:"willReportState"`
-	RoomHint        string     `json:"roomHint"`
-	DeviceInfo      DeviceInfo `json:"deviceInfo"`
+	Id              string                 `json:"id"`
+	Type            string                 `json:"type"`
+	Traits          []string               `json:"traits"`
+	Name            DeviceName             `json:"name"`
+	WillReportState bool                   `json:"willReportState"`
+	RoomHint        string                 `json:"roomHint"`
+	DeviceInfo      DeviceInfo             `json:"deviceInfo"`
+	Attributes      map[string]interface{} `json:"attributes"`
 }
 
 type DeviceName struct {
@@ -49,8 +52,8 @@ func (d *Device) Copy(Id string, Name string) Device {
 
 // EXECUTE
 type Command struct {
-	Devices []DeviceCommand `json:"devices"`
-	Execution []Execution `json:"execution"`
+	Devices   []DeviceCommand `json:"devices"`
+	Execution []Execution     `json:"execution"`
 }
 
 type DeviceCommand struct {
@@ -59,6 +62,6 @@ type DeviceCommand struct {
 }
 
 type Execution struct {
-	Command string `json:"command"`
-	Params map[string] interface{} `json:"params"`
+	Command string                 `json:"command"`
+	Params  map[string]interface{} `json:"params"`
 }

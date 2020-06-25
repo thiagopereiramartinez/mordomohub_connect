@@ -14,7 +14,7 @@ const (
 	GCLOUD_PROJECT_ID   string = "masterdeveloper-mordomo-hub"
 	GCLOUD_IOT_REGION   string = "us-central1"
 	GCLOUD_IOT_REGISTRY string = "mordomo"
-	GCLOUD_IOT_DEVICE   string = "esp32"
+	GCLOUD_IOT_DEVICE   string = "esp32_67F288"
 )
 
 func Execute(c *fiber.Ctx, requestId string, payload map[string]interface{}) error {
