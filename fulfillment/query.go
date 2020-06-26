@@ -1,8 +1,12 @@
 package fulfillment
 
 import (
+	"context"
 	"encoding/json"
+	firebase "firebase.google.com/go"
 	"github.com/gofiber/fiber"
+	"log"
+	"time"
 )
 
 func Query(c *fiber.Ctx, requestId string, payload map[string]interface{}) error {
@@ -12,27 +16,49 @@ func Query(c *fiber.Ctx, requestId string, payload map[string]interface{}) error
 
 	json.Unmarshal(str, &devices)
 
+	// Use the application default credentials
+	ctx := context.Background()
+	conf := &firebase.Config{ProjectID: "masterdeveloper-mordomo-hub"}
+	app, err := firebase.NewApp(ctx, conf)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	client, err := app.Firestore(ctx)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer client.Close()
+
+	m := make(map[string]interface{})
+
 	for _, device := range devices {
 
 		switch device["id"] {
-		// Termostato
+		// Sensor temperatura/umidade
 		case "5":
-			c.JSON(fiber.Map{
-				"requestId": requestId,
-				"payload": map[string] interface{} {
-					"devices": map[string] interface{} {
-						"5": map[string] interface{} {
-							"online": true,
-							"activeThermostatMode": "none",
-							"thermostatTemperatureAmbient": 25.3,
-							"thermostatHumidityAmbient": 45.3,
-							"status": "SUCCESS",
-						},
-					},
-				},
-			})
+
+			// Ler do Firestore
+			snap, _ := client.Collection("esp32").Doc("state").Get(ctx)
+			doc := snap.Data()
+			temp, humidity, _ := doc["temp"], int(doc["humidity"].(float64)), doc["timestamp"].(time.Time)
+
+			m["5"] = map[string]interface{}{
+				"online":                     true,
+				"humidityAmbientPercent":     humidity,
+				"temperatureSetpointCelsius": temp,
+				"temperatureAmbientCelsius":  temp,
+				"status":                     "SUCCESS",
+			}
 		}
 	}
+
+	c.JSON(fiber.Map{
+		"requestId": requestId,
+		"payload": map[string]interface{}{
+			"devices": m,
+		},
+	})
 
 	return nil
 }

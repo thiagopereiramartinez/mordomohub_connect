@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber"
 	"github.com/gofiber/helmet"
-	"github.com/google/uuid"
 	"github.com/thiagopereiramartinez/mordomohub_connect/auth"
 	"github.com/thiagopereiramartinez/mordomohub_connect/fulfillment"
 	"os"

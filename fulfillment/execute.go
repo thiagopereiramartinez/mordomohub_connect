@@ -41,12 +41,12 @@ func Execute(c *fiber.Ctx, requestId string, payload map[string]interface{}) err
 				on := e.Params["on"].(bool)
 				cmd := ""
 				if on {
-					cmd = "ON"
+					cmd = "0"
 				} else {
-					cmd = "OFF"
+					cmd = "1"
 				}
 				req := cloudiot.SendCommandToDeviceRequest{
-					BinaryData: base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("%s-%s", cmd, d.Id))),
+					BinaryData: base64.StdEncoding.EncodeToString([]byte(fmt.Sprintf("{\"ch%s\":%s}", d.Id, cmd))),
 				}
 
 				_, err := client.Projects.Locations.Registries.Devices.SendCommandToDevice(name, &req).Do()

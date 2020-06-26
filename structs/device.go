@@ -1,12 +1,16 @@
 package structs
 
 const (
+	TYPE_HUMIDIFIER string = "action.devices.types.HUMIDIFIER"
 	TYPE_OUTLET     string = "action.devices.types.OUTLET"
+	TYPE_SENSOR     string = "action.devices.types.SENSOR"
 	TYPE_THERMOSTAT string = "action.devices.types.THERMOSTAT"
 )
 
 const (
 	TRAITS_ON_OFF              string = "action.devices.traits.OnOff"
+	TRAITS_TEMPERATURE_CONTROL string = "action.devices.traits.TemperatureControl"
+	TRAITS_HUMIDITY_SETTING    string = "action.devices.traits.HumiditySetting"
 	TRAITS_TEMPERATURE_SETTING string = "action.devices.traits.TemperatureSetting"
 )
 
@@ -19,13 +23,13 @@ type Device struct {
 	WillReportState bool                   `json:"willReportState"`
 	RoomHint        string                 `json:"roomHint"`
 	DeviceInfo      DeviceInfo             `json:"deviceInfo"`
-	Attributes      map[string]interface{} `json:"attributes"`
+	Attributes      map[string]interface{} `json:"attributes,omitempty"`
 }
 
 type DeviceName struct {
 	DefaultNames []string `json:"defaultNames"`
 	Name         string   `json:"name"`
-	Nicknames    []string `json:"nicknames"`
+	Nicknames    []string `json:"nicknames,omitempty"`
 }
 
 type DeviceInfo struct {
@@ -47,6 +51,7 @@ func (d *Device) Copy(Id string, Name string) Device {
 		WillReportState: d.WillReportState,
 		RoomHint:        d.RoomHint,
 		DeviceInfo:      d.DeviceInfo,
+		Attributes:      d.Attributes,
 	}
 }
 

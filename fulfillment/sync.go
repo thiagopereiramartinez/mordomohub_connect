@@ -21,38 +21,45 @@ func Sync(c *fiber.Ctx, requestId string, payload map[string]interface{}) {
 		Type:   structs.TYPE_OUTLET,
 		Traits: []string{structs.TRAITS_ON_OFF},
 		Name: structs.DeviceName{
-			DefaultNames: []string{"Canal 1"},
-			Name:         "Canal 1",
-		},
-		WillReportState: false,
-		RoomHint:        "Quarto",
-		DeviceInfo:      manufacturer,
-	}
-
-	// Canal 2
-	device_2 := device_1.Copy("2", "Canal 2")
-
-	// Canal 3
-	device_3 := device_1.Copy("3", "Canal 3")
-
-	// Canal 4
-	device_4 := device_1.Copy("4", "Canal 4")
-
-	// Sensor
-	device_5 := structs.Device{
-		Id:     "5",
-		Type:   structs.TYPE_THERMOSTAT,
-		Traits: []string{structs.TRAITS_TEMPERATURE_SETTING},
-		Name: structs.DeviceName{
-			DefaultNames: []string{"DHT22"},
-			Name:         "DHT22",
+			DefaultNames: []string{"Tomada 1"},
+			Name:         "Tomada 1",
 		},
 		WillReportState: false,
 		RoomHint:        "Quarto",
 		DeviceInfo:      manufacturer,
 		Attributes: map[string]interface{}{
-			"thermostatTemperatureUnit":   "C",
-			"queryOnlyTemperatureSetting": "true",
+			"commandOnlyOnOff": true,
+		},
+	}
+
+	// Canal 2
+	device_2 := device_1.Copy("2", "Tomada 2")
+
+	// Canal 3
+	device_3 := device_1.Copy("3", "Tomada 3")
+
+	// Canal 4
+	device_4 := device_1.Copy("4", "Tomada 4")
+
+	// Termostato
+	device_5 := structs.Device{
+		Id:   "5",
+		Type: structs.TYPE_SENSOR,
+		Traits: []string{
+			structs.TRAITS_HUMIDITY_SETTING,
+			structs.TRAITS_TEMPERATURE_CONTROL,
+		},
+		Name: structs.DeviceName{
+			DefaultNames: []string{"DHT22"},
+			Name:         "DHT22",
+		},
+		WillReportState: true,
+		RoomHint:        "Quarto",
+		DeviceInfo:      manufacturer,
+		Attributes: map[string]interface{}{
+			"queryOnlyHumiditySetting":    true,
+			"queryOnlyTemperatureControl": true,
+			"temperatureUnitForUX":        "C",
 		},
 	}
 
@@ -68,7 +75,7 @@ func Sync(c *fiber.Ctx, requestId string, payload map[string]interface{}) {
 	c.JSON(fiber.Map{
 		"requestId": requestId,
 		"payload": fiber.Map{
-			"agentUserId": 1,
+			"agentUserId": "1",
 			"devices":     devices,
 		},
 	})
