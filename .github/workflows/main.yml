@@ -35,4 +35,3 @@ jobs:
           --image "us.gcr.io/${{ secrets.GCLOUD_PROJECT_ID }}/$SERVICE_NAME:$GITHUB_SHA" \
           --platform "managed" \
           --allow-unauthenticated
-       
