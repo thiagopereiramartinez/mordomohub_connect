@@ -2,10 +2,10 @@ package fulfillment
 
 import (
 	"github.com/gofiber/fiber"
-	"github.com/thiagopereiramartinez/mordomohub_connect/structs"
+	"github.com/thiagopereiramartinez/mordomo_connect/structs"
 )
 
-func Sync(c *fiber.Ctx, requestId string, payload map[string]interface{}) {
+func Sync(c *fiber.Ctx, requestId string) {
 
 	// Fabricante
 	manufacturer := structs.DeviceInfo{

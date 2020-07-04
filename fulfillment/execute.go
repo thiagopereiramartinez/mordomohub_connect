@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gofiber/fiber"
-	"github.com/thiagopereiramartinez/mordomohub_connect/structs"
+	"github.com/thiagopereiramartinez/mordomo_connect/structs"
 	cloudiot "google.golang.org/api/cloudiot/v1"
 )
 
@@ -51,19 +51,19 @@ func Execute(c *fiber.Ctx, requestId string, payload map[string]interface{}) err
 
 				_, err := client.Projects.Locations.Registries.Devices.SendCommandToDevice(name, &req).Do()
 				if err != nil {
-					resultCommands = append(resultCommands, map[string] interface{} {
-						"ids": []string { d.Id },
-						"status": "ERROR",
+					resultCommands = append(resultCommands, map[string]interface{}{
+						"ids":       []string{d.Id},
+						"status":    "ERROR",
 						"errorCode": "deviceTurnedOff",
 					})
 					continue
 				}
 
-				resultCommands = append(resultCommands, map[string] interface{} {
-					"ids": []string { d.Id },
+				resultCommands = append(resultCommands, map[string]interface{}{
+					"ids":    []string{d.Id},
 					"status": "SUCCESS",
-					"states": map[string] interface{} {
-						"on": on,
+					"states": map[string]interface{}{
+						"on":     on,
 						"online": true,
 					},
 				})
@@ -73,7 +73,7 @@ func Execute(c *fiber.Ctx, requestId string, payload map[string]interface{}) err
 
 	c.JSON(fiber.Map{
 		"requestId": requestId,
-		"payload": map[string] interface{} {
+		"payload": map[string]interface{}{
 			"commands": resultCommands,
 		},
 	})

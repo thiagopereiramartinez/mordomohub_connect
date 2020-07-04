@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber"
 	"github.com/gofiber/helmet"
-	"github.com/thiagopereiramartinez/mordomohub_connect/auth"
-	"github.com/thiagopereiramartinez/mordomohub_connect/fulfillment"
-	"github.com/thiagopereiramartinez/mordomohub_connect/sensors"
+	"github.com/thiagopereiramartinez/mordomo_connect/auth"
+	"github.com/thiagopereiramartinez/mordomo_connect/fulfillment"
+	"github.com/thiagopereiramartinez/mordomo_connect/sensors"
 	"os"
 	"strconv"
 )

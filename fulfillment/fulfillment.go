@@ -28,7 +28,7 @@ func Fulfillment(c *fiber.Ctx) {
 	for _, input := range request.Inputs {
 		switch input.Intent {
 		case SYNC:
-			Sync(c, request.RequestId, input.Payload)
+			Sync(c, request.RequestId)
 		case EXECUTE:
 			Execute(c, request.RequestId, input.Payload)
 		case QUERY:
